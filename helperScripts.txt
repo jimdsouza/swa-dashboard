@@ -1,0 +1,5 @@
+//list input elements in form jQuery
+var values={};
+$.each($('.roundtrip').serializeArray(), function(i, field) {
+    values[field.name] = field.value;
+});
