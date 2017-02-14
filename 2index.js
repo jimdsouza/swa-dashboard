@@ -10,13 +10,28 @@ const contrib = require("blessed-contrib")
 const format = require("date-format")
 const pretty = require("pretty-ms")
 const airports = require("airports")
-
 // Time constants
 const TIME_MS = 1
 const TIME_SEC = TIME_MS * 1000
 const TIME_MIN = TIME_SEC * 60
 const TIME_HOUR = TIME_MIN * 60
 
+// Command line options
+var origin = 'Brussels (BRU)'
+var origincode = 'BRU'
+var destination = 'New York (JFK)'
+var destinationcode = 'JFK'
+var depart_date = '2017-02-19' //yyyy-mm-dd
+var return_date = '2017-03-01' 
+//var c663I-adults-input = 1
+//var c663I-seniors-input = 0
+//var c663I-youth-input = 0
+//var c663I-child-input = 0
+//var c663I-seatInfant-input = 0
+//var c663I-lapInfant-input = 0
+var dtFlexCat = 'exact'
+var query = 'https://www.kayak.com/flights/'+ origincode + '-' + destinationcode + '/' + depart_date +'/' + return_date
+console.log(query)
 // Fares
 var prevLowestOutboundFare
 var prevLowestReturnFare
@@ -33,7 +48,7 @@ const flightTimes = {
   "evening":   "AFTER_6PM"
 }
 
-// Command line options
+
 var originAirport = 'LAX'
 var destinationAirport = 'EWR'
 var outboundDateString = '5/5/2017'
@@ -47,11 +62,6 @@ var interval = 5 // In minutes
 var fareType = 'DOLLARS'
 var isOneWay = false
 var isInternational = true
-var origincode = 'BRU/32869'
-var destination = 'NYC'
-var depart_date = '15/02/2017' 
-var return_date = '20/02/2017' 
-var ngfP-adults-input = 1
 // Remove invalid fields for a one-way flight
 // Doing this after all flags are parsed in the event
 // flags are out of order
@@ -140,20 +150,34 @@ const Kayakfetch = () => {
   }
 
   osmosis
-    .get("https://www.kayak.com/flights")
-    .submit(".rountrip", {
-      origincode,
-      destinationcode,
-      depart_date,
-      return_date,
-      ngfP-adults-input,
-    })
-    .find("#faresOutbound .product_price, #b0Table span.var.h5")
-        .then((priceMarkup) => {
+    .get(query)
+  //  .submit(".roundtrip", {
+  //   origin,
+  // origincode,
+  //   destination,
+  //  destinationcode,
+  //  depart_date: '02/19/2017',
+  //    return_date: '02/25/2017',
+  //  ['c663I-adults-input']: 1,
+    //  //['c663I-seniors-input']: 0,
+    //  //['c663I-youth-input']: 0,
+    //  //['c663I-child-input']: 0,
+    //  //['c663I-seatInfant-input']: 0,
+    //  //['c663I-lapInfant-input']: 0,
+    //  dtFlexCat
+//})
+    //.find('#searchResultsList' )
+    .delay(15)
+    .find(".bigPrice")
+    .data(function(price){
+    console.log(price)})
+    .then((priceMarkup) => {
       const price = parsepricemarkup(priceMarkup)
       fares.outbound.push(price)
       console.log(['Price is $(price)'])
     })
+    .log(console.log) 
+    .error(console.error)
     .find("#faresReturn .product_price, #b1Table span.var.h5")
     .log(console.log)
     .error(console.error)
@@ -241,8 +265,8 @@ const Kayakfetch = () => {
        
       }
 
-      setTimeout(fetch, interval * TIME_MIN)
+      setTimeout(Kayakfetch, interval * TIME_MIN)
     })
 }
 
-fetch()
+Kayakfetch()
