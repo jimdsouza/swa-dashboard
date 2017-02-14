@@ -47,7 +47,11 @@ var interval = 5 // In minutes
 var fareType = 'DOLLARS'
 var isOneWay = false
 var isInternational = true
-
+var origincode = 'BRU/32869'
+var destination = 'NYC'
+var depart_date = '15/02/2017' 
+var return_date = '20/02/2017' 
+var ngfP-adults-input = 1
 // Remove invalid fields for a one-way flight
 // Doing this after all flags are parsed in the event
 // flags are out of order
@@ -131,25 +135,18 @@ const parsepricemarkup = (pricemarkup) => {
  *
  * @return {Void}
  */
-const fetch = () => {
+const Kayakfetch = () => {
   const formData = {
   }
 
   osmosis
-    .get("https://www.southwest.com")
-    .submit(".booking-form--form", {
-      twoWayTrip: !isOneWay,
-      airTranRedirect: "",
-      returnAirport: isOneWay ? "" : "RoundTrip",
-      outboundTimeOfDay,
-      returnTimeOfDay,
-      seniorPassengerCount: 0,
-      fareType,
-      originAirport,
-      destinationAirport,
-      outboundDateString,
-      returnDateString,
-      adultPassengerCount
+    .get("https://www.kayak.com/flights")
+    .submit(".rountrip", {
+      origincode,
+      destinationcode,
+      depart_date,
+      return_date,
+      ngfP-adults-input,
     })
     .find("#faresOutbound .product_price, #b0Table span.var.h5")
         .then((priceMarkup) => {
