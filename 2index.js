@@ -30,8 +30,8 @@ var return_date = '2017-03-01'
 //var c663I-seatInfant-input = 0
 //var c663I-lapInfant-input = 0
 var dtFlexCat = 'exact'
-var query = 'https://www.kayak.com/flights/'+ origincode + '-' + destinationcode + '/' + depart_date +'/' + return_date
-console.log(query)
+//var query = 'https://www.kayak.com/flights/'+ origincode + '-' + destinationcode + '/' + depart_date +'/' + return_date
+var query = 'http://matrix.itasoftware.com/'
 // Fares
 var prevLowestOutboundFare
 var prevLowestReturnFare
@@ -139,7 +139,7 @@ const parsepricemarkup = (pricemarkup) => {
     return parseInt(matches[1])
   //}
 }
-
+var del=10000.0
 /**
  * Fetch latest Southwest prices
  *
@@ -151,7 +151,7 @@ const Kayakfetch = () => {
 
   osmosis
     .get(query)
-  //  .submit(".roundtrip", {
+    .submit("#searchButton-0", {
   //   origin,
   // origincode,
   //   destination,
@@ -167,10 +167,13 @@ const Kayakfetch = () => {
     //  dtFlexCat
 //})
     //.find('#searchResultsList' )
-    .delay(15)
-    .find(".bigPrice")
-    .data(function(price){
-    console.log(price)})
+    //.data(function(data){console.log(data)})
+    //.find('div')
+    .then(function(document, data){
+            console.log(document)
+    })
+    .find('div')
+    .log(console.log)
     .then((priceMarkup) => {
       const price = parsepricemarkup(priceMarkup)
       fares.outbound.push(price)
