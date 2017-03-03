@@ -34,21 +34,20 @@ const flightTimes = {
 }
 
 // Command line options
-var originAirport
-var destinationAirport
-var outboundDateString
+var originAirport = 'LAX'
+var destinationAirport = 'EWR'
+var outboundDateString = '5/5/2017'
 var outboundTimeOfDay = flightTimes["anytime"]
-var returnDateString
+var returnDateString = '6/6/2017'
 var returnTimeOfDay = flightTimes["anytime"]
-var adultPassengerCount
-var individualDealPrice
-var totalDealPrice
-var interval = 30 // In minutes
-var fareType = "DOLLARS"
+var adultPassengerCount = 1
+var individualDealPrice 
+var totalDealPrice 
+var interval = 5 // In minutes
+var fareType = 'DOLLARS'
 var isOneWay = false
-var isInternational = false
-
-// Parse command line options (no validation, sorry!)
+var isInternational = true
+/// Parse command line options (no validation, sorry!)
 process.argv.forEach((arg, i, argv) => {
   switch (arg) {
     case "--from":
@@ -455,6 +454,7 @@ const fetch = () => {
       adultPassengerCount
     })
     .find("#faresOutbound .product_price, #b0Table span.var.h5")
+    .log(console.log)
     .then((priceMarkup) => {
       const price = parsePriceMarkup(priceMarkup)
       fares.outbound.push(price)

@@ -10,6 +10,7 @@ const contrib = require("blessed-contrib")
 const format = require("date-format")
 const pretty = require("pretty-ms")
 const airports = require("airports")
+var request = require('request')
 // Time constants
 const TIME_MS = 1
 const TIME_SEC = TIME_MS * 1000
@@ -31,7 +32,7 @@ var return_date = '2017-03-01'
 //var c663I-lapInfant-input = 0
 var dtFlexCat = 'exact'
 //var query = 'https://www.kayak.com/flights/'+ origincode + '-' + destinationcode + '/' + depart_date +'/' + return_date
-var query = 'http://matrix.itasoftware.com/'
+var query = 'matrix.itasoftware.com'
 // Fares
 var prevLowestOutboundFare
 var prevLowestReturnFare
@@ -148,10 +149,20 @@ var del=10000.0
 const Kayakfetch = () => {
   const formData = {
   }
+  
+  request('www.matrix.itasoftware.com', function(err, resp, body) {
+
+                    console.log(body);
+    });
 
   osmosis
     .get(query)
-    .submit("#searchButton-0", {
+
+    
+    .find('//div[@id="searchButton-0"]')
+    .log(console.log)
+    .error(console.error)
+//    .submit('searchButton-0')//, {
   //   origin,
   // origincode,
   //   destination,
@@ -170,7 +181,7 @@ const Kayakfetch = () => {
     //.data(function(data){console.log(data)})
     //.find('div')
     .then(function(document, data){
-            console.log(document)
+            console.log(data)
     })
     .find('div')
     .log(console.log)
